@@ -7,12 +7,12 @@ services:
       - '3000:3000'
     volumes:
       - .:/home/node/app
-      - node_modules:/home/node/app/node_modules
+    # - node_modules:/home/node/app/node_modules
     working_dir: /home/node/app/
     #command: sh -c "yarn install && yarn dev"
-    command: sh -c "corepack enable && corepack prepare pnpm@10.5.2 --activate && pnpm install --frozen-lockfile && pnpm build"
+    command: sh -c "corepack enable && corepack prepare pnpm@10.5.2 --activate && pnpm install --frozen-lockfile && pnpm build && pnpm start"
     env_file:
       - .env
 
-volumes:
-  node_modules:
+#volumes:
+#  node_modules:
