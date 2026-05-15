@@ -10,7 +10,8 @@ services:
     # - node_modules:/home/node/app/node_modules
     working_dir: /home/node/app/
     #command: sh -c "yarn install && yarn dev"
-    command: sh -c "corepack enable && corepack prepare pnpm@10.5.2 --activate && pnpm install --frozen-lockfile && pnpm build && pnpm start"
+    #command: sh -c "corepack enable && corepack prepare pnpm@10.5.2 --activate && pnpm install --frozen-lockfile && pnpm build && pnpm start"
+    command: sh -c "corepack enable && corepack prepare pnpm@10.5.2 --activate && pnpm install --frozen-lockfile && pnpm build && node .next/standalone/server.js"
     env_file:
       - .env
 
