@@ -21,6 +21,15 @@ export const Categories: CollectionConfig = {
       type: 'text',
       required: true,
     },
+    {
+      name: 'parent',
+      type: 'relationship',
+      relationTo: 'categories',
+      admin: {
+        position: 'sidebar',
+        description: 'Select parent category (leave empty for top-level boards like News)',
+      },
+    },
     slugField({
       position: undefined,
     }),
