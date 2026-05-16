@@ -59,7 +59,7 @@ RUN adduser --system --uid 1001 nextjs
 RUN mkdir -p .next media && chown -R nextjs:nodejs .next media
 
 # Remove this line if you do not have this folder
-COPY --from=builder /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
