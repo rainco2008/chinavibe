@@ -10,7 +10,7 @@ services:
       - '3000:3000'
     restart: always
     volumes:
-       - payload_media:/app/media
+       - payload_media:/app/public/media
     #  - .:/home/node/app
     # - node_modules:/home/node/app/node_modules
     #working_dir: /home/node/app/
