@@ -2,18 +2,24 @@
 
 services:
   payload:
-    image: node:24-alpine
+    build:  # 🔥 直接指向本地 Dockerfile 编译，无需挂载代码和执行复杂 command
+      context: .
+      dockerfile: Dockerfile
+    #image: node:24-alpine
     ports:
       - '3000:3000'
+    restart: always
     volumes:
-      - .:/home/node/app
+       - payload_media:/app/media
+    #  - .:/home/node/app
     # - node_modules:/home/node/app/node_modules
-    working_dir: /home/node/app/
+    #working_dir: /home/node/app/
     #command: sh -c "yarn install && yarn dev"
     #command: sh -c "corepack enable && corepack prepare pnpm@10.5.2 --activate && pnpm install --frozen-lockfile && pnpm build && pnpm start"
-    command: sh -c "corepack enable && corepack prepare pnpm@10.5.2 --activate && pnpm install --frozen-lockfile && pnpm build && node .next/standalone/server.js"
+    #command: sh -c "corepack enable && corepack prepare pnpm@10.5.2 --activate && pnpm install --frozen-lockfile && pnpm build && node .next/standalone/server.js"
     env_file:
       - .env
 
-#volumes:
+volumes:
+   payload_media:
 #  node_modules:
