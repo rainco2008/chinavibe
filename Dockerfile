@@ -55,6 +55,9 @@ ENV HOSTNAME "0.0.0.0"
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
+# Install su-exec so we can drop privileges at runtime
+RUN apk add --no-cache su-exec
+
 # Set the correct permission for prerender cache
 RUN mkdir -p .next public/media && chown -R nextjs:nodejs .next public
 
@@ -66,10 +69,8 @@ COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-USER nextjs
+# Note: We do NOT switch to USER nextjs here. We stay as root so we can fix volume permissions.
 EXPOSE 3000
 
-# server.js is created by next build from the standalone output
-# https://nextjs.org/docs/pages/api-reference/next-config-js/output
-#CMD HOSTNAME="0.0.0.0" node server.js
-CMD ["node", "server.js"]
+# At runtime: fix volume permissions, then switch to 'nextjs' user to run the app
+CMD chown -R nextjs:nodejs /app/public/media && exec su-exec nextjs node server.js
