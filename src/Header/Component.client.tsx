@@ -8,7 +8,7 @@ import type { Header } from '@/payload-types'
 
 import { Logo } from '@/components/Logo/Logo'
 import { HeaderNav } from './Nav'
-
+import { SearchIcon } from 'lucide-react'
 interface HeaderClientProps {
   data: Header
 }
@@ -30,12 +30,16 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   }, [headerTheme])
 
   return (
-    <header className="container relative z-20   " {...(theme ? { 'data-theme': theme } : {})}>
-      <div className="py-8 flex justify-between">
+    <header className="container relative z-20  pt-10 " {...(theme ? { 'data-theme': theme } : {})}>
+      <div className="flex justify-between items-center">
         <Link href="/">
           <Logo loading="eager" priority="high" className="invert dark:invert-0" />
         </Link>
         <HeaderNav data={data} />
+        <Link href="/search" style={{ width: '150px' }}>
+          <span className="sr-only">Search</span>
+          <SearchIcon className="w-5 text-primary" />
+        </Link>
       </div>
     </header>
   )
