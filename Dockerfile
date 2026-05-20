@@ -31,6 +31,8 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 ENV NEXT_TELEMETRY_DISABLED 1
 ENV NODE_ENV=production
+ENV PAYLOAD_SECRET=1b07f9cef348daf2e4350d08
+ENV DATABASE_URL=postgresql://neondb_owner:npg_GDVU1XEwaB4M@ep-royal-bread-al0fqfwk.c-3.eu-central-1.aws.neon.tech/neondb?sslmode=require&uselibpqcompat=true
 
 RUN \
   if [ -f yarn.lock ]; then yarn run build; \
