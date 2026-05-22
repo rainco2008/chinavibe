@@ -5,6 +5,9 @@ services:
     build:  # 🔥 直接指向本地 Dockerfile 编译，无需挂载代码和执行复杂 command
       context: .
       dockerfile: Dockerfile
+      args:
+        - PAYLOAD_SECRET=${PAYLOAD_SECRET} # 🔥 新增：在编译阶段注入变量
+        - DATABASE_URL=${DATABASE_URL}
     #image: node:24-alpine
     ports:
       - '3000:3000'
