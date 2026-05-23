@@ -2,6 +2,8 @@
 # From https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile
 
 FROM node:24-alpine AS base
+ARG DATABASE_URL
+ARG PAYLOAD_SECRET
 
 # Install dependencies only when needed
 FROM base AS deps
@@ -31,6 +33,8 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 ENV NEXT_TELEMETRY_DISABLED 1
 ENV NODE_ENV=production
+ENV PAYLOAD_SECRET=${PAYLOAD_SECRET} 
+ENV DATABASE_URL=${DATABASE_URL}
 
 RUN \
   if [ -f yarn.lock ]; then yarn run build; \
