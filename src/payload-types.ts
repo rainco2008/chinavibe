@@ -397,11 +397,14 @@ export interface Category {
   id: number;
   title: string;
   /**
+   * Select parent category (leave empty for top-level boards like News)
+   */
+  parent?: (number | null) | Category;
+  /**
    * When enabled, the slug will auto-generate from the title field on save and autosave.
    */
   generateSlug?: boolean | null;
   slug: string;
-  parent?: (number | null) | Category;
   breadcrumbs?:
     | {
         doc?: (number | null) | Category;
@@ -1319,9 +1322,9 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface CategoriesSelect<T extends boolean = true> {
   title?: T;
+  parent?: T;
   generateSlug?: T;
   slug?: T;
-  parent?: T;
   breadcrumbs?:
     | T
     | {

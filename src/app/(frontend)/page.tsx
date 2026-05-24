@@ -11,6 +11,7 @@ import { homeStatic } from '@/endpoints/seed/home-static'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import PageClient from './[...slug]/page.client'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
+import Slider from '@/components/AnimatedSlider/Slider'
 
 const queryHomePage = cache(async () => {
   const { isEnabled: draft } = await draftMode()
@@ -41,6 +42,29 @@ export default async function HomePage() {
   }
 
   const payload = await getPayload({ config: configPromise })
+
+  // Fetch top posts for slider
+  const topPostsRes = await payload.find({
+    collection: 'posts',
+    sort: '-createdAt',
+    limit: 5,
+  })
+
+  const fallbackImages = ['/1.png', '/2.png', '/3.png', '/4.png', '/7.png'];
+
+  const sliderData = topPostsRes.docs.map((post, index) => {
+    let imgUrl = typeof post.heroImage === 'object' && post.heroImage ? (post.heroImage.url || '') : '';
+    if (!imgUrl) {
+      imgUrl = fallbackImages[index % fallbackImages.length];
+    }
+    return {
+      img: imgUrl,
+      title: post.title,
+      description: post.meta?.description || '',
+      location: (post.categories && post.categories.length > 0 && typeof post.categories[0] === 'object') ? post.categories[0].title : 'ChinaVibe'
+    }
+  });
+
 
   // 1. Fetch top-level boards
   const boardsRes = await payload.find({
@@ -82,6 +106,13 @@ export default async function HomePage() {
     <article className="pt-16 pb-24">
       <PageClient />
       {draft && <LivePreviewListener />}
+
+      {/* Animated Slider Hero */}
+      {sliderData.length > 0 && (
+        <div className="mb-12">
+          <Slider sliderData={sliderData} />
+        </div>
+      )}
 
       {/* Render Hero Section from CMS */}
       {hero && <RenderHero {...hero} />}
