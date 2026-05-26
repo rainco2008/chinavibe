@@ -28,14 +28,14 @@ const queryHomePage = cache(async () => {
       },
     },
   })
-  
+
   return result.docs?.[0] || null
 })
 
 export default async function HomePage() {
   const { isEnabled: draft } = await draftMode()
   let page = await queryHomePage()
-  
+
   // Use static payload if seeded data is missing
   if (!page) {
     page = homeStatic as any
@@ -50,7 +50,7 @@ export default async function HomePage() {
     limit: 5,
   })
 
-  const fallbackImages = ['/1.png', '/2.png', '/3.png', '/4.png', '/7.png'];
+  const fallbackImages = ['/1.png', '/2.png', '/3.png', '/4.png', '/5.png', '/6.png', '/7.png'];
 
   const sliderData = topPostsRes.docs.map((post, index) => {
     let imgUrl = typeof post.heroImage === 'object' && post.heroImage ? (post.heroImage.url || '') : '';
@@ -139,10 +139,10 @@ export default async function HomePage() {
                   <div key={post.id} className="group cursor-pointer">
                     <Link href={`/posts/${post.slug}`}>
                       <div className="bg-gray-100 aspect-video rounded-lg mb-4 overflow-hidden relative">
-                         {/* Optional Image rendering placeholder if post has heroImage */}
-                         <div className="absolute inset-0 flex items-center justify-center text-gray-400">
-                           {post.title}
-                         </div>
+                        {/* Optional Image rendering placeholder if post has heroImage */}
+                        <div className="absolute inset-0 flex items-center justify-center text-gray-400">
+                          {post.title}
+                        </div>
                       </div>
                       <h3 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors mb-2 line-clamp-2">
                         {post.title}
